@@ -65,8 +65,7 @@ public class MemberController {
             return JsonResp.error(400, "id为空");
         }
         try {
-            AuditEntity auditEntity = new AuditEntity();
-            int res = memberService.deleteMember(auditEntity, ids);
+            int res = memberService.deleteMember(ids, new AuditEntity());
             return JsonResp.success(res);
         } catch (Exception e) {
 //            return JsonResp.error(500, e.toString());

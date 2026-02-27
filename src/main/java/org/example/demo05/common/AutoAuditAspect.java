@@ -23,18 +23,18 @@ public class AutoAuditAspect {
     public Object autoAudit(ProceedingJoinPoint p) throws Throwable {
         String method = p.getSignature().getName();//目标方法名
         Object[] args = p.getArgs();
-        System.out.println("=========test==============");
-        System.out.println(method);
-        System.out.println("=========test==============");
-        if (args.length > 0) {
-            Object arg0 = args[0];
-            System.out.println(arg0.toString());
-            System.out.println("=========test==============");
-            if (arg0 instanceof AuditEntity ae) {
+        System.out.println("======== auto audit test ========");
+        System.out.println("======== test start ========");
+        System.out.println("method name: " + method);
+        System.out.println("======== test ========");
+        for (Object arg : args) {
+            System.out.println("arg: " + arg.toString());
+            System.out.println("======== test ========");
+            if (arg instanceof AuditEntity ae) {
                 ae.setUpdateBy(Global.currentUser());
                 ae.setUpdateDate(LocalDateTime.now());
-                System.out.println(ae.getUpdateBy());
-                System.out.println("=========test==============");
+                System.out.println("auditEntity:updateBy: " + ae.getUpdateBy());
+                System.out.println("======== test over ========");
                 if (method.contains("add")) {
                     ae.setRegisterBy(Global.currentUser());
                     ae.setRegisterDate(LocalDateTime.now());

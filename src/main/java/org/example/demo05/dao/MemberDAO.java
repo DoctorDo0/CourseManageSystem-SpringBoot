@@ -12,7 +12,7 @@ import java.util.List;
 public interface MemberDAO {
     int insert(Member member);
 
-    int deleteByPrimaryKey(@Param("auditEntity") AuditEntity auditEntity, @Param("ids") Integer[] ids);
+    int deleteByPrimaryKey(@Param("ids") Integer[] ids, @Param("auditEntity") AuditEntity auditEntity);
 
     int updateByPrimaryKey(Member member);
 

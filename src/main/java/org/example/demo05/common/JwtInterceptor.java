@@ -19,7 +19,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     private String secret;
 
     @Override
-    public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) /*throws Exception*/ {
         String jwt = req.getHeader("Authorization");
 
         if (StringUtils.hasText(jwt)) {//有
@@ -30,17 +30,18 @@ public class JwtInterceptor implements HandlerInterceptor {
                 DecodedJWT dj = ver.verify(jwt);
                 String username = dj.getAudience().getFirst();
                 Global.setCurrentUser(username);//存储到当前线程中
-                System.out.println("============success============");
+                System.out.println("======== jwt success ========");
                 return true;
             } catch (JWTVerificationException e) {
                 //jwt有问题
                 //throw new RuntimeException(e);
-                //pass
-                System.out.println("============error============");
+                //continue
+                System.out.println("======== jwt error ========");
+                System.out.println(e.getMessage());
             }
         }
 
-        System.out.println("============fail============");
+        System.out.println("======== jwt fail ========");
         //响应状态码401
         resp.setStatus(HttpStatus.UNAUTHORIZED.value());
         return false;

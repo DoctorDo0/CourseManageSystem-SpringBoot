@@ -14,5 +14,5 @@ public interface MemberService {
 
     Integer updateMember(Member member);
 
-    Integer deleteMember(AuditEntity auditEntity, Integer[] ids);
+    Integer deleteMember(Integer[] ids, AuditEntity auditEntity);
 }

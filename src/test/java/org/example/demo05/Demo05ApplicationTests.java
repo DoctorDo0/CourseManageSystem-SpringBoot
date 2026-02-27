@@ -2,6 +2,7 @@ package org.example.demo05;
 
 import com.github.pagehelper.Page;
 import org.example.demo05.entity.Member;
+import org.example.demo05.entity.User;
 import org.example.demo05.entity.bean.MemberBean;
 import org.example.demo05.service.MemberService;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -127,4 +128,14 @@ class Demo05ApplicationTests {
         IO.println(pe.encryptPassword(str));
     }
 
+    @Test
+    @DisplayName("测试引用传递")
+    public void test2() {
+        User user = new User();
+        user.setDescription("test1");
+        User user2 = user;
+        user2.setDescription("test2");
+        IO.println(user2.getDescription());
+        IO.println(user.getDescription());
+    }
 }

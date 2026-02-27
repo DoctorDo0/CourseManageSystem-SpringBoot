@@ -49,5 +49,6 @@ public class Member extends AuditEntity /*implements Serializable*/ {
 
     private double balance;
 
-    private boolean active;
+    // 此处使用Boolean代替boolean，除getActive与isActive方法外，boolean会影响初始化赋值
+    private Boolean active;
 }

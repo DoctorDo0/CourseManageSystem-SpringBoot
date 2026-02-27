@@ -6,7 +6,7 @@
     <!--不指定active内容时，查询active=1的数据，配合删除使用-->
     <select id="selectAll" resultType="MemberBean">
         select
-        id,member_id,name,gender,birthday,phone,email,wechat,qq,register_date,register_by,update_date,update_by,description,balance
+        id,member_id,name,gender,birthday,phone,email,wechat,qq,register_date,register_by,update_date,update_by,description,balance,active
         from gym_member
         <where>
             <if test="id != null and id !=''">
@@ -57,10 +57,10 @@
             <if test="balanceTo != null and balanceTo != ''">
                 and balance &lt;= #{balanceTo}
             </if>
-            <if test="active == null or active == ''">
+            <if test="active == null">
                 and `active` = 1
             </if>
-            <if test="active != null and active != ''">
+            <if test="active != null">
                 and `active` = #{active}
             </if>
         </where>

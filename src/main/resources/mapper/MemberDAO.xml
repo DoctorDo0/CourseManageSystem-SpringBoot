@@ -51,12 +51,6 @@
             <if test="updateBy != null and updateBy != ''">
                 and update_by = #{updateBy}
             </if>
-            <if test="balanceFrom != null and balanceFrom != ''">
-                and balance &gt;= #{balanceFrom}
-            </if>
-            <if test="balanceTo != null and balanceTo != ''">
-                and balance &lt;= #{balanceTo}
-            </if>
             <if test="active == null">
                 and `active` = 1
             </if>

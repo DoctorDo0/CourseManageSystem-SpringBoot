@@ -85,22 +85,22 @@
             <scope>compile</scope>
         </dependency>
 
-<!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/org.mybatis.caches/mybatis-caffeine &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.mybatis.caches</groupId>-->
-<!--            <artifactId>mybatis-caffeine</artifactId>-->
-<!--            <version>1.2.1</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/org.mybatis.caches/mybatis-caffeine &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.mybatis.caches</groupId>-->
+        <!--            <artifactId>mybatis-caffeine</artifactId>-->
+        <!--            <version>1.2.1</version>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
 
-<!--        &lt;!&ndash;缓存实现&ndash;&gt;-->
-<!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.ben-manes.caffeine</groupId>-->
-<!--            <artifactId>caffeine</artifactId>-->
-<!--            <version>3.2.3</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash;缓存实现&ndash;&gt;-->
+        <!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.ben-manes.caffeine</groupId>-->
+        <!--            <artifactId>caffeine</artifactId>-->
+        <!--            <version>3.2.3</version>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
 
         <!--加密解密库-->
         <!-- Source: https://mvnrepository.com/artifact/org.jasypt/jasypt -->
@@ -167,6 +167,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <!--导入导出Excel-->
+        <!-- Source: https://mvnrepository.com/artifact/cn.idev.excel/fastexcel -->
+        <dependency>
+            <groupId>cn.idev.excel</groupId>
+            <artifactId>fastexcel</artifactId>
+            <version>1.3.0</version>
         </dependency>
 
     </dependencies>

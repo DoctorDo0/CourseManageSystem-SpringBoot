@@ -21,8 +21,6 @@ public class MemberBean extends Member {
     private String[] updateDateRange;
     private LocalDate updateDateFrom;
     private LocalDate updateDateTo;
-    private double balanceFrom;
-    private double balanceTo;
 
     public void setBirthdayRange(String[] birthdayRange) {
         this.birthdayRange = birthdayRange;

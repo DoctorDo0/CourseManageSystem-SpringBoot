@@ -52,4 +52,16 @@ public class MemberServiceImplement implements MemberService {
     public Integer deleteMember(Integer[] ids, AuditEntity auditEntity) {
         return memberDAO.deleteByPrimaryKey(ids, auditEntity);
     }
+
+    @Override
+    public int batchSave(List<Member> members) {
+        int count = 0;
+        for (Member member : members) {
+            int success = this.addMember(member);
+            if (success != 0) {
+                count = count + success;
+            }
+        }
+        return count;
+    }
 }

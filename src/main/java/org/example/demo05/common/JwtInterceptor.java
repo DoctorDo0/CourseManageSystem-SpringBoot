@@ -21,6 +21,10 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) /*throws Exception*/ {
         String jwt = req.getHeader("Authorization");
+        if (!StringUtils.hasText(jwt)) {
+            String token = req.getParameter("jwt");
+            jwt = token;
+        }
 
         if (StringUtils.hasText(jwt)) {//有
             //校验令牌

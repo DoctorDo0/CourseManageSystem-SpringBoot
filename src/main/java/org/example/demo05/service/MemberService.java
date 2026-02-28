@@ -15,4 +15,6 @@ public interface MemberService {
     Integer updateMember(Member member);
 
     Integer deleteMember(Integer[] ids, AuditEntity auditEntity);
+
+    int batchSave(List<Member> members);
 }

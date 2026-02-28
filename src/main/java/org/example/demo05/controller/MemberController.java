@@ -179,20 +179,7 @@ public class MemberController {
                 member.setId(null);//保存时不应有id
             }
 
-            //代码从service迁移至controller，因service调用this.add时无法触发切面
-//            int _ = this.memberService.batchSave(members);
-            int count = 0;
-            for (Member member : members) {
-                //TODO:
-                //暂时将初始密码设置为123456
-                member.setMemberPassword("123456");
-                int success = memberService.addMember(member);
-                if (success != 0) {
-                    count = count + success;
-                }
-            }
-//            return count;
-            int _ = count;
+            int _ = this.memberService.batchSave(members);
         }
 
         public int count() {

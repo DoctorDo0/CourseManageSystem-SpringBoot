@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 public class AutoAuditAspect {
     @Pointcut("execution(* org.example.demo05.service.implement.*.*add*(..))" +
             " || execution(* org.example.demo05.service.implement.*.*update*(..))" +
-            "|| execution(* org.example.demo05.service.implement.*.*delete*(..))")
+            "|| execution(* org.example.demo05.service.implement.*.*delete*(..))" +
+            "|| execution(* org.example.demo05.service.implement.*.*restore*(..))")
     public void pc() {
         //pass
     }

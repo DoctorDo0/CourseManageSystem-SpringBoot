@@ -3,6 +3,7 @@ package org.example.demo05.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.demo05.entity.Course;
+import org.example.demo05.utils.AuditEntity;
 
 import java.util.List;
 
@@ -23,5 +24,8 @@ public interface CourseService extends IService<Course> {
     boolean update(Course course);
 
     //批量删除
-    int deleteByIds(List<Integer> ids);
+    int deleteByIds(Integer[] ids, AuditEntity auditEntity);
+
+    //批量恢复
+    int restoreByIds(Integer[] ids,AuditEntity auditEntity);
 }

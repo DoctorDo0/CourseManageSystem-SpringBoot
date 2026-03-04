@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.demo05.dao.CourseDAO">
+    <!--使用标志位替换删除功能-->
+    <delete id="deleteByIds">
+        update cms_course set `active` = 0,update_date = #{auditEntity.updateDate},update_by=#{auditEntity.updateBy}
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--修改标志位代表数据恢复-->
+    <delete id="restoreByIds">
+        update cms_course set `active` = 1,update_date = #{auditEntity.updateDate},update_by=#{auditEntity.updateBy}
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.demo05.dao.AppointmentDAO">
+    <!--自定义结果集映射-->
+    <resultMap id="AppointmentDetailMapWithPrefix" type="org.example.demo05.entity.Appointment">
+        <!-- Appointment本身对象 -->
+        <id column="appointment_id" property="id"/>
+        <result column="appointment_student_id" property="studentId"/>
+        <result column="appointment_course_info_id" property="courseInfoId"/>
+        <result column="appointment_record" property="record"/>
+        <result column="appointment_record_time" property="recordTime"/>
+        <!-- 关联学生对象，使用前缀 -->
+        <association property="student"
+                     javaType="org.example.demo05.entity.Student"
+                     columnPrefix="stu_">
+            <id column="id" property="id"/>
+            <result column="student_id" property="studentId"/>
+            <result column="name" property="name"/>
+        </association>
+        <!-- 关联课程信息对象，使用前缀 -->
+        <association property="courseInfo"
+                     javaType="org.example.demo05.entity.CourseInfo"
+                     columnPrefix="info_">
+            <id column="id" property="id"/>
+            <result column="course_id" property="courseId"/>
+            <result column="teacher_id" property="teacherId"/>
+            <result column="course_date" property="courseDate"/>
+            <result column="course_period" property="coursePeriod"/>
+            <result column="course_address" property="courseAddress"/>
+
+            <!-- 关联课程对象，使用前缀 -->
+            <association property="course"
+                         javaType="org.example.demo05.entity.Course"
+                         columnPrefix="c_">
+                <id column="id" property="id"/>                      <!-- c_id → Course.id -->
+                <result column="course_id" property="courseId"/>     <!-- c_course_id → Course.courseId -->
+                <result column="course_name" property="courseName"/> <!-- c_name → Course.name -->
+                <result column="description" property="description"/><!-- c_description → Course.description -->
+            </association>
+
+            <!-- 关联教师对象，使用前缀 -->
+            <association property="teacher"
+                         javaType="org.example.demo05.entity.Teacher"
+                         columnPrefix="t_">
+                <id column="id" property="id"/>                    <!-- t_id → Teacher.id -->
+                <result column="teacher_id" property="teacherId"/> <!-- t_teacher_id → Teacher.teacherId -->
+                <result column="name" property="name"/>            <!-- t_name → Teacher.name -->
+                <result column="gender" property="gender"/>        <!-- t_gender → Teacher.gender -->
+            </association>
+        </association>
+    </resultMap>
+    <!--查询-->
+    <select id="selectAll" resultMap="AppointmentDetailMapWithPrefix">
+        select
+        ap.id as appointment_id,
+        ap.student_id as appointment_student_id,
+        ap.course_info_id as appointment_course_info_id,
+        ap.record as appointment_record,
+        ap.record_time as appointment_record_time,
+
+        s.id as stu_id,
+        s.student_id as stu_student_id,
+        s.name as stu_name,
+
+        ci.id as info_id,
+        ci.course_id as info_course_id,
+        ci.teacher_id as info_teacher_id,
+        ci.course_date as info_course_date,
+        ci.course_period as info_course_period,
+        ci.course_address as info_course_address,
+
+        c.id as info_c_id,
+        c.course_id as info_c_course_id,
+        c.course_name AS info_c_course_name,
+        c.description AS info_c_description,
+
+        t.id AS info_t_id,
+        t.teacher_id AS info_t_teacher_id,
+        t.name AS info_t_name,
+        t.gender AS info_t_gender
+
+        from cms_appiontment ap
+        left join cms_student s on ap.student_id = s.id
+        left join cms_course_info ci on ap.course_info_id = ci.id
+        left join cms_course c on ci.course_id = c.id
+        left join cms_teacher t on ci.teacher_id = t.id
+        <where>
+            <if test="id != null and id !=''">
+                and ap.id = #{id}
+            </if>
+            <if test="studentId != null and studentId !=''">
+                <bind name="studentIdLike" value="'%'+studentId+'%'"/>
+                and ap.student_id = #{studentIdLike}
+            </if>
+            <if test="courseInfoId != null and courseInfoId !=''">
+                <bind name="courseInfoIdLike" value="'%'+courseInfoId+'%'"/>
+                and ap.course_info_id = #{courseInfoIdLike}
+            </if>
+            <if test="student.studentName != null and student.studentName !=''">
+                <bind name="studentNameLike" value="'%'+student.studentName+'%'"/>
+                and s.name like #{studentNameLike}
+            </if>
+            <if test="courseInfo.courseId != null and courseInfo.courseId !=''">
+                <bind name="courseIdLike" value="'%'+courseInfo.courseId+'%'"/>
+                and ci.course_id like #{courseIdLike}
+            </if>
+            <if test="courseInfo.teacherId != null and courseInfo.teacherId !=''">
+                <bind name="teacherIdLike" value="'%'+courseInfo.teacherId+'%'"/>
+                and ci.teacher_id like #{teacherIdLike}
+            </if>
+            <if test="courseInfo.courseDate != null and courseInfo.courseDate != ''">
+                and ci.course_date = #{courseInfo.courseDate}
+            </if>
+            <if test="courseInfo.coursePeriod != null and courseInfo.coursePeriod != ''">
+                and ci.course_period = #{courseInfo.coursePeriod}
+            </if>
+            <if test="courseInfo.courseAddress != null and courseInfo.courseAddress !=''">
+                <bind name="courseAddressLike" value="'%'+courseInfo.courseAddress+'%'"/>
+                and ci.course_address like #{courseAddressLike}
+            </if>
+            <if test="courseInfo.course.courseName != null and courseInfo.course.courseName !=''">
+                <bind name="courseNameLike" value="'%'+courseInfo.course.courseName+'%'"/>
+                and c.course_name like #{courseInfo.course.courseNameLike}
+            </if>
+            <if test="courseInfo.teacher.teacherName != null and courseInfo.teacher.teacherName !=''">
+                <bind name="teacherNameLike" value="'%'+courseInfo.teacher.teacherName+'%'"/>
+                and t.name like #{teacherNameLike}
+            </if>
+            <if test="courseInfo.course.courseId != null and courseInfo.course.courseId !=''">
+                <bind name="courseIdLike" value="'%'+courseInfo.course.courseId+'%'"/>
+                and c.course_id like #{courseIdLike}
+            </if>
+            <if test="courseInfo.teacher.teacherGender != null and courseInfo.teacher.teacherGender != ''">
+                and t.gender = #{courseInfo.teacher.teacherGender}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into cms_appiontment (student_id, course_info_id)
+        values (#{studentId}, #{courseInfoId})
+    </insert>
+
+    <update id="update">
+        update cms_appiontment
+        set student_id     = #{studentId},
+            course_info_id = #{courseInfoId}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from cms_course_info where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="attend">
+        update cms_appiontment
+        set record = "已签到",
+        record_time = now()
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="absent">
+        update cms_appiontment
+        set record = "未签到",
+        record_time = now()
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

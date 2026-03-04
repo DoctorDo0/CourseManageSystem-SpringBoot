@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.demo05.dao.CourseInfoDAO">
+    <!--自定义结果集映射-->
+    <resultMap id="CourseInfoDetailMapWithPrefix" type="org.example.demo05.entity.CourseInfo">
+        <!-- CourseInfo自身字段 -->
+        <id column="info_id" property="id"/>
+        <result column="info_course_id" property="courseId"/>
+        <result column="info_teacher_id" property="teacherId"/>
+        <result column="info_course_date" property="courseDate"/>
+        <result column="info_course_period" property="coursePeriod"/>
+        <result column="info_course_address" property="courseAddress"/>
+
+        <!-- 关联课程对象，使用前缀 -->
+        <association property="course"
+                     javaType="org.example.demo05.entity.Course"
+                     columnPrefix="c_">
+            <id column="id" property="id"/>                      <!-- c_id → Course.id -->
+            <result column="course_id" property="courseId"/>     <!-- c_course_id → Course.courseId -->
+            <result column="course_name" property="courseName"/> <!-- c_name → Course.name -->
+            <result column="description" property="description"/><!-- c_description → Course.description -->
+        </association>
+
+        <!-- 关联教师对象，使用前缀 -->
+        <association property="teacher"
+                     javaType="org.example.demo05.entity.Teacher"
+                     columnPrefix="t_">
+            <id column="id" property="id"/>                    <!-- t_id → Teacher.id -->
+            <result column="teacher_id" property="teacherId"/> <!-- t_teacher_id → Teacher.teacherId -->
+            <result column="name" property="name"/>            <!-- t_name → Teacher.name -->
+            <result column="gender" property="gender"/>        <!-- t_gender → Teacher.gender -->
+        </association>
+    </resultMap>
+    <!--查询-->
+    <select id="selectAll" resultMap="CourseInfoDetailMapWithPrefix">
+        select
+        ci.id as info_id,
+        ci.course_id as info_course_id,
+        ci.teacher_id as info_teacher_id,
+        ci.course_date as info_course_date,
+        ci.course_period as info_course_period,
+        ci.course_address as info_course_address,
+
+        c.id as c_id,
+        c.course_id as c_course_id,
+        c.course_name AS c_course_name,
+        c.description AS c_description,
+
+        t.id AS t_id,
+        t.teacher_id AS t_teacher_id,
+        t.name AS t_name,
+        t.gender AS t_gender
+
+        from cms_course_info ci
+        left join cms_course c on ci.course_id = c.id
+        left join cms_teacher t on ci.teacher_id = t.id
+        <where>
+            <if test="id != null and id !=''">
+                and ci.id = #{id}
+            </if>
+            <if test="courseId != null and courseId !=''">
+                <bind name="courseIdLike" value="'%'+courseId+'%'"/>
+                and ci.course_id like #{courseIdLike}
+            </if>
+            <if test="teacherId != null and teacherId !=''">
+                <bind name="teacherIdLike" value="'%'+teacherId+'%'"/>
+                and ci.teacher_id like #{teacherIdLike}
+            </if>
+            <if test="courseDate != null and courseDate != ''">
+                and ci.course_date = #{courseDate}
+            </if>
+            <if test="coursePeriod != null and coursePeriod != ''">
+                and ci.course_period = #{coursePeriod}
+            </if>
+            <if test="courseAddress != null and courseAddress !=''">
+                <bind name="courseAddressLike" value="'%'+courseAddress+'%'"/>
+                and ci.course_address like #{courseAddressLike}
+            </if>
+            <if test="course.courseName != null and course.courseName !=''">
+                <bind name="courseNameLike" value="'%'+course.courseName+'%'"/>
+                and c.course_name like #{courseNameLike}
+            </if>
+            <if test="teacher.teacherName != null and teacher.teacherName !=''">
+                <bind name="teacherNameLike" value="'%'+teacher.teacherName+'%'"/>
+                and t.name like #{teacherNameLike}
+            </if>
+            <if test="course.courseId != null and course.courseId !=''">
+                <bind name="courseIdLike" value="'%'+course.courseId+'%'"/>
+                and c.course_id like #{courseIdLike}
+            </if>
+            <if test="teacher.teacherGender != null and teacher.teacherGender != ''">
+                and t.gender = #{teacher.teacherGender}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into cms_course_info (course_id, teacher_id, course_date, course_period, course_address)
+        values (#{courseId}, #{teacherId}, #{courseDate}, #{coursePeriod}, #{courseAddress})
+    </insert>
+
+    <update id="updateByPrimaryKey">
+        update cms_course_info
+        set course_id      = #{courseId},
+            teacher_id     = #{teacherId},
+            course_date    = #{courseDate},
+            course_period  = #{coursePeriod},
+            course_address = #{courseAddress}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        delete from cms_course_info where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

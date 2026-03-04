@@ -135,7 +135,36 @@ class Demo05ApplicationTests {
         user.setDescription("test1");
         User user2 = user;
         user2.setDescription("test2");
-        IO.println(user2.getDescription());
-        IO.println(user.getDescription());
+        IO.println("user2 " + user2.getDescription());
+        IO.println("user " + user.getDescription());
+    }
+
+    @Test
+    @DisplayName("测试引用传递")
+    public void test3() {
+        String str = "123456";
+        System.out.println("str " + str);
+        String str2 = str;
+        System.out.println("str2 " + str2);
+        str2 = str2 + "test";
+        System.out.println("str2 " + str2);
+        System.out.println("str " + str);
+
+        int a = 123456;
+        System.out.println("a " + a);
+        int b = a;
+        System.out.println("b " + b);
+        b = b + 1;
+        System.out.println("b " + b);
+        System.out.println("a " + a);
+    }
+
+    @Test
+    @DisplayName("测试基本数据类型")
+    @SuppressWarnings("all")
+    public void test4() {
+        int a;
+        a = 0;
+        System.out.println(a);
     }
 }

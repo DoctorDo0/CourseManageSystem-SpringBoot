@@ -21,4 +21,49 @@
         </foreach>
     </delete>
 
+    <!--不指定active内容时，查询active=1的数据，配合删除使用-->
+    <select id="getCourses" resultType="CourseBean">
+        select id,course_id,course_name,description,register_date,register_by,update_date,update_by,active
+        from cms_course
+        <where>
+            <if test="courseBean.id != null and courseBean.id !=''">
+                and id = #{courseBean.id}
+            </if>
+            <if test="courseBean.courseId != null and courseBean.courseId !=''">
+                <bind name="courseIdLike" value="'%'+courseBean.courseId+'%'"/>
+                and course_id like #{courseIdLike}
+            </if>
+            <if test="courseBean.courseName != null and courseBean.courseName != ''">
+                <bind name="courseNameLike" value="'%'+courseBean.courseName+'%'"/>
+                and course_name like #{courseNameLike}
+            </if>
+            <if test="courseBean.registerDateFrom != null">
+                and register_date &gt;= #{courseBean.registerDateFrom}
+            </if>
+            <if test="courseBean.registerDateTo != null">
+                and register_date &lt;= #{courseBean.registerDateTo}
+            </if>
+            <if test="courseBean.registerBy != null and courseBean.registerBy != ''">
+                <bind name="registerByLike" value="'%'+courseBean.registerBy+'%'"/>
+                and register_by like #{registerByLike}
+            </if>
+            <if test="courseBean.updateDateFrom != null">
+                and update_date &gt;= #{courseBean.updateDateFrom}
+            </if>
+            <if test="courseBean.updateDateTo != null">
+                and update_date &lt;= #{courseBean.updateDateTo}
+            </if>
+            <if test="courseBean.updateBy != null and courseBean.updateBy != ''">
+                <bind name="updateByLike" value="'%'+courseBean.updateBy+'%'"/>
+                and update_by like #{updateByLike}
+            </if>
+            <if test="courseBean.active == null">
+                and `active` = 1
+            </if>
+            <if test="courseBean.active != null">
+                and `active` = #{courseBean.active}
+            </if>
+        </where>
+    </select>
+
 </mapper>

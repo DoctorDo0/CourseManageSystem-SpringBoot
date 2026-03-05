@@ -2,6 +2,7 @@ package org.example.demo05.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import org.example.demo05.common.Global;
 import org.example.demo05.entity.Account;
 import org.example.demo05.entity.User;
 import org.example.demo05.service.UserService;
@@ -130,6 +131,14 @@ public class UserApi {
         } else {
             return JsonResp.error("删除操作失败");
         }
+    }
+
+    @GetMapping("/getusername")
+    public JsonResp getUsername() {
+        if (Global.currentUser() != null) {
+            return JsonResp.success(Global.currentUser());
+        }
+        return null;
     }
 
 }

@@ -18,6 +18,7 @@
             <id column="id" property="id"/>
             <result column="student_id" property="studentId"/>
             <result column="name" property="name"/>
+            <result column="gender" property="gender"/>
         </association>
         <!-- 关联课程信息对象，使用前缀 -->
         <association property="courseInfo"
@@ -63,6 +64,7 @@
         s.id as stu_id,
         s.student_id as stu_student_id,
         s.name as stu_name,
+        s.gender as stu_gender,
 
         ci.id as info_id,
         ci.course_id as info_course_id,
@@ -98,9 +100,16 @@
                 <bind name="courseInfoIdLike" value="'%'+courseInfoId+'%'"/>
                 and ap.course_info_id = #{courseInfoIdLike}
             </if>
-            <if test="student.studentName != null and student.studentName !=''">
-                <bind name="studentNameLike" value="'%'+student.studentName+'%'"/>
+            <if test="student.studentId != null and student.studentId !=''">
+                <bind name="studentIdLike" value="'%'+student.studentId+'%'"/>
+                and s.student_id like #{studentIdLike}
+            </if>
+            <if test="student.name != null and student.name !=''">
+                <bind name="studentNameLike" value="'%'+student.name+'%'"/>
                 and s.name like #{studentNameLike}
+            </if>
+            <if test="student.gender != null and student.gender != ''">
+                and s.gender = #{student.gender}
             </if>
             <if test="courseInfo.courseId != null and courseInfo.courseId !=''">
                 <bind name="courseIdLike" value="'%'+courseInfo.courseId+'%'"/>
@@ -110,7 +119,7 @@
                 <bind name="teacherIdLike" value="'%'+courseInfo.teacherId+'%'"/>
                 and ci.teacher_id like #{teacherIdLike}
             </if>
-            <if test="courseInfo.courseDate != null and courseInfo.courseDate != ''">
+            <if test="courseInfo.courseDate != null">
                 and ci.course_date = #{courseInfo.courseDate}
             </if>
             <if test="courseInfo.coursePeriod != null and courseInfo.coursePeriod != ''">
@@ -120,20 +129,24 @@
                 <bind name="courseAddressLike" value="'%'+courseInfo.courseAddress+'%'"/>
                 and ci.course_address like #{courseAddressLike}
             </if>
-            <if test="courseInfo.course.courseName != null and courseInfo.course.courseName !=''">
-                <bind name="courseNameLike" value="'%'+courseInfo.course.courseName+'%'"/>
-                and c.course_name like #{courseInfo.course.courseNameLike}
-            </if>
-            <if test="courseInfo.teacher.teacherName != null and courseInfo.teacher.teacherName !=''">
-                <bind name="teacherNameLike" value="'%'+courseInfo.teacher.teacherName+'%'"/>
-                and t.name like #{teacherNameLike}
-            </if>
             <if test="courseInfo.course.courseId != null and courseInfo.course.courseId !=''">
                 <bind name="courseIdLike" value="'%'+courseInfo.course.courseId+'%'"/>
                 and c.course_id like #{courseIdLike}
             </if>
-            <if test="courseInfo.teacher.teacherGender != null and courseInfo.teacher.teacherGender != ''">
-                and t.gender = #{courseInfo.teacher.teacherGender}
+            <if test="courseInfo.course.courseName != null and courseInfo.course.courseName !=''">
+                <bind name="courseNameLike" value="'%'+courseInfo.course.courseName+'%'"/>
+                and c.course_name like #{courseNameLike}
+            </if>
+            <if test="courseInfo.teacher.teacherId != null and courseInfo.teacher.teacherId !=''">
+                <bind name="teacherIdLike" value="'%'+courseInfo.teacher.teacherId+'%'"/>
+                and t.teacher_id like #{teacherIdLike}
+            </if>
+            <if test="courseInfo.teacher.name != null and courseInfo.teacher.name !=''">
+                <bind name="teacherNameLike" value="'%'+courseInfo.teacher.name+'%'"/>
+                and t.name like #{teacherNameLike}
+            </if>
+            <if test="courseInfo.teacher.gender != null and courseInfo.teacher.gender != ''">
+                and t.gender = #{courseInfo.teacher.gender}
             </if>
         </where>
     </select>
@@ -151,7 +164,7 @@
     </update>
 
     <delete id="delete">
-        delete from cms_course_info where id in
+        delete from cms_appiontment where id in
         <foreach collection="ids" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>

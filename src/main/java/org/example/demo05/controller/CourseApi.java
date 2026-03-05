@@ -1,7 +1,9 @@
 package org.example.demo05.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.demo05.entity.Course;
+import org.example.demo05.entity.bean.CourseBean;
 import org.example.demo05.service.CourseService;
 import org.example.demo05.utils.AuditEntity;
 import org.example.demo05.utils.JsonResp;
@@ -22,8 +24,21 @@ public class CourseApi {
         this.courseService = courseService;
     }
 
-    //分页查询
     @GetMapping
+    public JsonResp getCourses(@RequestParam(defaultValue = "1") Integer page,
+                               @RequestParam(defaultValue = "10") Integer limit, CourseBean courseBean) {
+        try {
+            Page<?> p = new Page<>(page, limit);
+            IPage<Course> courses = this.courseService.getCourses(p, courseBean);
+            return JsonResp.success(courses);
+        } catch (Exception e) {
+//            return JsonResp.error(500, e.toString());
+            throw new RuntimeException(e);
+        }
+    }
+
+    //分页查询
+    @GetMapping("/getById")
     public JsonResp getCourse(@RequestParam(defaultValue = "1") Integer page,
                               @RequestParam(defaultValue = "10") Integer limit, Integer id) {
         //创建一个分页对象

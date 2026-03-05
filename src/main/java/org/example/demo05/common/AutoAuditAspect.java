@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Aspect
 public class AutoAuditAspect {
     @Pointcut("execution(* org.example.demo05.service.implement.*.*add*(..))" +
+            " || execution(* org.example.demo05.service.implement.*.*save*(..))" +
             " || execution(* org.example.demo05.service.implement.*.*update*(..))" +
             "|| execution(* org.example.demo05.service.implement.*.*delete*(..))" +
             "|| execution(* org.example.demo05.service.implement.*.*restore*(..))")
@@ -36,7 +37,7 @@ public class AutoAuditAspect {
                 ae.setUpdateDate(LocalDateTime.now());
                 System.out.println("auditEntity:updateBy: " + ae.getUpdateBy());
                 System.out.println("======== test over ========");
-                if (method.contains("add")) {
+                if (method.contains("add") || method.contains("save")) {
                     ae.setRegisterBy(Global.currentUser());
                     ae.setRegisterDate(LocalDateTime.now());
                 }

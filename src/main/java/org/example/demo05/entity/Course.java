@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.demo05.utils.AuditEntity;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @TableName("cms_course")
 @Getter
 @Setter
+@ToString
 public class Course extends AuditEntity implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;

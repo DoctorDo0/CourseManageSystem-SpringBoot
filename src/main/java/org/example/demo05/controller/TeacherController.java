@@ -110,7 +110,7 @@ public class TeacherController {
     }
 
     /**
-     * 导出会员到excel
+     * 导出查询数据到excel
      */
     @GetMapping(value = "/export", produces = "application/vnd.ms-excel")
     public void exportToExcel(TeacherBean teacherBean, HttpServletResponse resp) throws IOException {
@@ -120,15 +120,15 @@ public class TeacherController {
         // 获取最大数量
         int count = this.teacherService.getTeachersCount(teacherBean);
         Page<Teacher> p = new Page<>(1, count);
-//        //满足条件的会员
+//        //满足条件的查询内容
 //        p = teacherService.getTeachers(p, teacherBean);
-//        //会员列表
+//        //查询内容列表
 //        List<Teacher> teachers = p.getRecords();
         List<Teacher> teachers = teacherService.getTeachers(p, teacherBean);
 
         LocalDateTime now = LocalDateTime.now();
         //下载文件名
-        String fileName = "会员信息表-" + now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String fileName = "教师信息表-" + now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 
         // 这里URLEncoder.encode可以防止中文乱码 当然这和easy-excel没有关系
         fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
@@ -145,7 +145,7 @@ public class TeacherController {
         //此处配置的白名单列和黑名单列，会覆盖模型类中的注解定义（优先级比注解定义高），如：@ExcelProperty和@ExcelIgnore。
         //registerConverter表示全局适用，而写在属性的注解中，表示仅所属注解适用
         FastExcel.write(resp.getOutputStream(), Teacher.class)
-                .excludeColumnFieldNames(excludeProperties).sheet("会员信息表")
+                .excludeColumnFieldNames(excludeProperties).sheet("教师信息表")
                 .doWrite(teachers);
 
     }

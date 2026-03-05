@@ -68,7 +68,7 @@
                 <bind name="teacherIdLike" value="'%'+teacherId+'%'"/>
                 and ci.teacher_id like #{teacherIdLike}
             </if>
-            <if test="courseDate != null and courseDate != ''">
+            <if test="courseDate != null">
                 and ci.course_date = #{courseDate}
             </if>
             <if test="coursePeriod != null and coursePeriod != ''">
@@ -82,16 +82,17 @@
                 <bind name="courseNameLike" value="'%'+course.courseName+'%'"/>
                 and c.course_name like #{courseNameLike}
             </if>
-            <if test="teacher.teacherName != null and teacher.teacherName !=''">
-                <bind name="teacherNameLike" value="'%'+teacher.teacherName+'%'"/>
-                and t.name like #{teacherNameLike}
+            <if test="teacher.name != null and teacher.name !=''">
+                <bind name="nameLike" value="'%'+teacher.name+'%'"/>
+                and t.name like #{nameLike}
             </if>
             <if test="course.courseId != null and course.courseId !=''">
                 <bind name="courseIdLike" value="'%'+course.courseId+'%'"/>
                 and c.course_id like #{courseIdLike}
             </if>
-            <if test="teacher.teacherGender != null and teacher.teacherGender != ''">
-                and t.gender = #{teacher.teacherGender}
+            <if test="teacher.teacherId != null and teacher.teacherId != ''">
+                <bind name="teacherIdLike" value="'%'+teacher.teacherId+'%'"/>
+                and t.teacher_id like #{teacherIdLike}
             </if>
         </where>
     </select>

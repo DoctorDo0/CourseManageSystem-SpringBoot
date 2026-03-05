@@ -1,8 +1,10 @@
 package org.example.demo05.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.demo05.entity.Course;
+import org.example.demo05.entity.bean.CourseBean;
 import org.example.demo05.utils.AuditEntity;
 
 import java.util.List;
@@ -13,6 +15,8 @@ public interface CourseService extends IService<Course> {
 
     //查询全部
     List<Course> findAll();
+
+    IPage<Course> getCourses(Page<?> page, CourseBean courseBean);
 
     //唯一查询
     Course findById(Integer id);
@@ -27,5 +31,5 @@ public interface CourseService extends IService<Course> {
     int deleteByIds(Integer[] ids, AuditEntity auditEntity);
 
     //批量恢复
-    int restoreByIds(Integer[] ids,AuditEntity auditEntity);
+    int restoreByIds(Integer[] ids, AuditEntity auditEntity);
 }

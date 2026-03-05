@@ -23,5 +23,7 @@ public interface TeacherDAO {
 
     int getTeachersCount(TeacherBean teacherBean);
 
+    Teacher selectByPrimaryKey(Integer id);
+
     List<Teacher> getMainInfo();
 }

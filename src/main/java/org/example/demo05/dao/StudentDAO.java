@@ -23,5 +23,7 @@ public interface StudentDAO {
 
     int getStudentsCount(StudentBean studentBean);
 
+    Student selectByPrimaryKey(Integer id);
+
     List<Student> getMainInfo();
 }

@@ -82,6 +82,10 @@ public class StudentServiceImplement implements StudentService {
         return count;
     }
 
+    public Student getByPrimaryKey(Integer id) {
+        return this.studentDAO.selectByPrimaryKey(id);
+    }
+
     @Override
     public List<Student> getMainInfo() {
         return this.studentDAO.getMainInfo();

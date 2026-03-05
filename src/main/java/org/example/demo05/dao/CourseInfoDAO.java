@@ -16,5 +16,7 @@ public interface CourseInfoDAO {
 
     int deleteByPrimaryKey(@Param("ids") Integer[] ids);
 
+    CourseInfo selectByPrimaryKey(Integer id);
+
     List<CourseInfo> getMainInfo();
 }

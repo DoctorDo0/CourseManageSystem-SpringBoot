@@ -175,6 +175,13 @@
         </foreach>
     </delete>
 
+    <select id="selectByPrimaryKey" resultType="teacher">
+        select *
+        from cms_teacher
+        where id = #{id}
+        limit 1;
+    </select>
+
     <select id="getMainInfo" resultType="teacher">
         select id, teacher_id, name
         from cms_teacher

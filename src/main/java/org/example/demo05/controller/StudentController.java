@@ -87,8 +87,8 @@ public class StudentController {
             return JsonResp.error(400, "id为空");
         }
         try {
-            int res = studentService.deleteStudent(ids, new AuditEntity());
-            return JsonResp.success(res);
+            int resp = studentService.deleteStudent(ids, new AuditEntity());
+            return JsonResp.success(resp);
         } catch (Exception e) {
 //            return JsonResp.error(500, e.toString());
             throw new RuntimeException(e);
@@ -101,8 +101,8 @@ public class StudentController {
             return JsonResp.error(400, "id为空");
         }
         try {
-            int res = studentService.restoreStudent(ids, new AuditEntity());
-            return JsonResp.success(res);
+            int resp = studentService.restoreStudent(ids, new AuditEntity());
+            return JsonResp.success(resp);
         } catch (Exception e) {
 //            return JsonResp.error(500, e.toString());
             throw new RuntimeException(e);

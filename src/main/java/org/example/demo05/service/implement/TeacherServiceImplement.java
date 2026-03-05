@@ -82,6 +82,10 @@ public class TeacherServiceImplement implements TeacherService {
         return count;
     }
 
+    public Teacher getByPrimaryKey(Integer id) {
+        return this.teacherDAO.selectByPrimaryKey(id);
+    }
+
     @Override
     public List<Teacher> getMainInfo() {
         return this.teacherDAO.getMainInfo();

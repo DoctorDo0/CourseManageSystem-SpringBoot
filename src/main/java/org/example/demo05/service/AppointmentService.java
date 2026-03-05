@@ -2,19 +2,20 @@ package org.example.demo05.service;
 
 import com.github.pagehelper.Page;
 import org.example.demo05.entity.Appointment;
+import org.example.demo05.utils.JsonResp;
 
-import java.util.List;
+import java.util.Map;
 
 public interface AppointmentService {
-    List<Appointment> getAppointment(Page<?> page, Appointment appointment);
+    JsonResp getAppointment(Page<?> page, Map<String, String> params);
 
-    Integer addAppointment(Appointment appointment);
+    JsonResp addAppointment(Appointment appointment);
 
-    Integer updateAppointment(Appointment appointment);
+    JsonResp updateAppointment(Appointment appointment);
 
-    Integer cancelAppointment(Integer[] ids);
+    JsonResp cancelAppointment(Integer[] ids);
 
-    Integer attendAppointment(Integer[] ids);
+    JsonResp attendAppointment(Integer[] ids);
 
-    Integer absentAppointment(Integer[] ids);
+    JsonResp absentAppointment(Integer[] ids);
 }

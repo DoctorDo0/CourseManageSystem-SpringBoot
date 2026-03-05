@@ -141,4 +141,11 @@
                  left join cms_teacher t on ci.teacher_id = t.id
     </select>
 
+    <select id="selectByPrimaryKey" resultType="courseInfo">
+        select *
+        from cms_course_info
+        where id = #{id}
+        limit 1;
+    </select>
+
 </mapper>

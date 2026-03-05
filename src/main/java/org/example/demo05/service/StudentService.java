@@ -21,4 +21,7 @@ public interface StudentService {
     Integer restoreStudent(Integer[] ids, AuditEntity auditEntity);
 
     int batchSave(List<Student> students);
+
+    //主要信息，适配前端下拉列表(选择器)
+    List<Student> getMainInfo();
 }

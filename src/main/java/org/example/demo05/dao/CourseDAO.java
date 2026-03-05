@@ -9,6 +9,8 @@ import org.example.demo05.entity.Course;
 import org.example.demo05.entity.bean.CourseBean;
 import org.example.demo05.utils.AuditEntity;
 
+import java.util.List;
+
 @Mapper
 public interface CourseDAO extends BaseMapper<Course> {
     //pass
@@ -17,4 +19,6 @@ public interface CourseDAO extends BaseMapper<Course> {
     int restoreByIds(@Param("ids") Integer[] ids, @Param("auditEntity") AuditEntity auditEntity);
 
     IPage<Course> getCourses(Page<?> page, @Param("courseBean") CourseBean courseBean);
+
+    List<Course> getMainInfo();
 }

@@ -15,4 +15,6 @@ public interface CourseInfoDAO {
     int updateByPrimaryKey(CourseInfo courseInfo);
 
     int deleteByPrimaryKey(@Param("ids") Integer[] ids);
+
+    List<CourseInfo> getMainInfo();
 }

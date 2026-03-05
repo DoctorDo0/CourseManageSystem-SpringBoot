@@ -32,4 +32,7 @@ public interface CourseService extends IService<Course> {
 
     //批量恢复
     int restoreByIds(Integer[] ids, AuditEntity auditEntity);
+
+    //主要信息，适配前端下拉列表(选择器)
+    List<Course> getMainInfo();
 }

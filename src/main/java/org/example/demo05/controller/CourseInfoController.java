@@ -122,4 +122,10 @@ public class CourseInfoController {
             throw new RuntimeException(e);
         }
     }
+
+    //主要信息，适配前端下拉列表(选择器)
+    @GetMapping(path = "/mainInfo")
+    public JsonResp getMainInfo() {
+        return JsonResp.success(this.courseInfoService.getMainInfo());
+    }
 }

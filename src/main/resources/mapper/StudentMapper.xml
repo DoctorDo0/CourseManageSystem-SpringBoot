@@ -175,4 +175,9 @@
         </foreach>
     </delete>
 
+    <select id="getMainInfo" resultType="student">
+        select id, student_id, name
+        from cms_student
+    </select>
+
 </mapper>

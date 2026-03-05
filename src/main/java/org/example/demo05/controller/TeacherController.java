@@ -201,4 +201,10 @@ public class TeacherController {
         String url = this.uploadService.upload(file, "teacher_avatar");
         return JsonResp.success(url);
     }
+
+    //主要信息，适配前端下拉列表(选择器)
+    @GetMapping(path = "/mainInfo")
+    public JsonResp getMainInfo() {
+        return JsonResp.success(this.teacherService.getMainInfo());
+    }
 }

@@ -40,4 +40,9 @@ public class CourseInfoServiceImplement implements CourseInfoService {
     public Integer deleteCourseInfo(Integer[] ids) {
         return courseInfoDAO.deleteByPrimaryKey(ids);
     }
+
+    @Override
+    public List<CourseInfo> getMainInfo() {
+        return this.courseInfoDAO.getMainInfo();
+    }
 }

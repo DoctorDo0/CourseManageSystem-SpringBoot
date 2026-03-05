@@ -22,4 +22,6 @@ public interface StudentDAO {
     List<Student> selectAll(StudentBean studentBean);
 
     int getStudentsCount(StudentBean studentBean);
+
+    List<Student> getMainInfo();
 }

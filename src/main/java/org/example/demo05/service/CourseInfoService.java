@@ -13,4 +13,7 @@ public interface CourseInfoService {
     Integer updateCourseInfo(CourseInfo courseInfo);
 
     Integer deleteCourseInfo(Integer[] ids);
+
+    //主要信息，适配前端下拉列表(选择器)
+    List<CourseInfo> getMainInfo();
 }

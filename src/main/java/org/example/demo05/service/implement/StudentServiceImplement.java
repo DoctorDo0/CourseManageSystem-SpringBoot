@@ -82,6 +82,11 @@ public class StudentServiceImplement implements StudentService {
         return count;
     }
 
+    @Override
+    public List<Student> getMainInfo() {
+        return this.studentDAO.getMainInfo();
+    }
+
     private StudentService self() {
         return (StudentService) AopContext.currentProxy();
     }

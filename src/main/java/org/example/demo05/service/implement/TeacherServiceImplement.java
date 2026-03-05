@@ -82,6 +82,11 @@ public class TeacherServiceImplement implements TeacherService {
         return count;
     }
 
+    @Override
+    public List<Teacher> getMainInfo() {
+        return this.teacherDAO.getMainInfo();
+    }
+
     private TeacherService self() {
         return (TeacherService) AopContext.currentProxy();
     }

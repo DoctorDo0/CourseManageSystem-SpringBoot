@@ -73,4 +73,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseDAO, Course> implements
     public int restoreByIds(Integer[] ids, AuditEntity auditEntity) {
         return this.courseDAO.restoreByIds(ids, auditEntity);
     }
+
+    @Override
+    public List<Course> getMainInfo() {
+        return this.courseDAO.getMainInfo();
+    }
 }

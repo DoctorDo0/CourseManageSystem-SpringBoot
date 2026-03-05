@@ -92,13 +92,6 @@ public class AppointmentController {
                 }
             });
 
-            System.out.println("=============================");
-            System.out.println(appointment);
-            System.out.println(student);
-            System.out.println(courseInfo);
-            System.out.println(teacher);
-            System.out.println(course);
-            System.out.println("=============================");
             List<Appointment> appointmentList = appointmentService.getAppointment(p, appointment);
             PageInfo<?> pageInfo = new PageInfo<>(appointmentList);
             return JsonResp.success(pageInfo);

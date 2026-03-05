@@ -22,4 +22,6 @@ public interface TeacherDAO {
     List<Teacher> selectAll(TeacherBean teacherBean);
 
     int getTeachersCount(TeacherBean teacherBean);
+
+    List<Teacher> getMainInfo();
 }

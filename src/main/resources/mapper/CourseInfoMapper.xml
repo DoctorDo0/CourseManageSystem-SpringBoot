@@ -45,13 +45,13 @@
 
         c.id as c_id,
         c.course_id as c_course_id,
-        c.course_name AS c_course_name,
-        c.description AS c_description,
+        c.course_name as c_course_name,
+        c.description as c_description,
 
-        t.id AS t_id,
-        t.teacher_id AS t_teacher_id,
-        t.name AS t_name,
-        t.gender AS t_gender
+        t.id as t_id,
+        t.teacher_id as t_teacher_id,
+        t.name as t_name,
+        t.gender as t_gender
 
         from cms_course_info ci
         left join cms_course c on ci.course_id = c.id
@@ -118,4 +118,27 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="getMainInfo" resultMap="CourseInfoDetailMapWithPrefix">
+        select ci.id             as info_id,
+               ci.course_id      as info_course_id,
+               ci.teacher_id     as info_teacher_id,
+               ci.course_date    as info_course_date,
+               ci.course_period  as info_course_period,
+               ci.course_address as info_course_address,
+
+               c.id              as c_id,
+               c.course_id       as c_course_id,
+               c.course_name     as c_course_name,
+               c.description     as c_description,
+
+               t.id              as t_id,
+               t.teacher_id      as t_teacher_id,
+               t.name            as t_name,
+               t.gender          as t_gender
+        from cms_course_info as ci
+                 left join cms_course c on ci.course_id = c.id
+                 left join cms_teacher t on ci.teacher_id = t.id
+    </select>
+
 </mapper>

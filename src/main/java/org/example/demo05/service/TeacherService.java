@@ -21,4 +21,7 @@ public interface TeacherService {
     Integer restoreTeacher(Integer[] ids, AuditEntity auditEntity);
 
     int batchSave(List<Teacher> teachers);
+
+    //主要信息，适配前端下拉列表(选择器)
+    List<Teacher> getMainInfo();
 }

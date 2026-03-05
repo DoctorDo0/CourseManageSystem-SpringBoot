@@ -66,4 +66,9 @@
         </where>
     </select>
 
+    <select id="getMainInfo" resultType="course">
+        select id, course_id, course_name
+        from cms_course
+    </select>
+
 </mapper>

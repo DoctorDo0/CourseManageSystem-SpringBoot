@@ -2,6 +2,7 @@ package org.example.demo05.service;
 
 import com.github.pagehelper.Page;
 import org.example.demo05.entity.Appointment;
+import org.example.demo05.entity.appointmentDTO.StudentBook;
 import org.example.demo05.utils.JsonResp;
 
 import java.util.Map;
@@ -34,4 +35,10 @@ public interface AppointmentService {
     JsonResp getBookNumber(Integer courseInfoId);
 
     JsonResp getStudentCountWithSameCourse();
+
+    JsonResp getStudentBookRecords(String studentId);
+
+    JsonResp studentBook(StudentBook studentBook);
+
+    JsonResp studentCancel(Integer appointmentId);
 }

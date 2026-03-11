@@ -192,4 +192,10 @@
         from cms_student
     </select>
 
+    <select id="getIdByStudentId" resultType="int">
+        select id
+        from cms_student
+        where student_id = #{studentId}
+    </select>
+
 </mapper>

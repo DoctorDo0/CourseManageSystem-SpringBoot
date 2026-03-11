@@ -3,6 +3,7 @@ package org.example.demo05.service.implement;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.example.demo05.dao.AppointmentDAO;
 import org.example.demo05.dao.CourseInfoDAO;
 import org.example.demo05.entity.Course;
 import org.example.demo05.entity.CourseInfo;
@@ -21,6 +22,7 @@ public class CourseInfoServiceImplement implements CourseInfoService {
     CourseInfoDAO courseInfoDAO;
     CourseServiceImpl courseServiceImpl;
     TeacherServiceImplement teacherServiceImplement;
+    AppointmentDAO appointmentDAO;
 
     @Autowired
     public void setCourseInfoMapper(CourseInfoDAO courseInfoDAO) {
@@ -35,6 +37,11 @@ public class CourseInfoServiceImplement implements CourseInfoService {
     @Autowired
     public void setTeacherServiceImplement(TeacherServiceImplement teacherServiceImplement) {
         this.teacherServiceImplement = teacherServiceImplement;
+    }
+
+    @Autowired
+    public void setAppointmentDAO(AppointmentDAO appointmentDAO) {
+        this.appointmentDAO = appointmentDAO;
     }
 
     @Override
@@ -128,14 +135,28 @@ public class CourseInfoServiceImplement implements CourseInfoService {
         return this.courseInfoDAO.selectByPrimaryKey(id);
     }
 
-    //主要数据，前端下拉列表用
+    //主要信息，适配前端下拉列表(选择器)
     @Override
     public List<CourseInfo> getMainInfo() {
         return this.courseInfoDAO.getMainInfo();
     }
 
+    //课程分组占比(教师数量)，适配前端EChart图表用
     @Override
     public JsonResp getTeacherCountWithSameCourse() {
         return JsonResp.success(courseInfoDAO.getTeacherCountWithSameCourse());
+    }
+
+    //获取未预约的课程信息，学生专用
+    @Override
+    public JsonResp getStudentLessonsAvailable(String studentId) {
+        List<CourseInfo> courseInfoList = courseInfoDAO.getStudentLessonsAvailable(studentId);
+        for (CourseInfo courseInfo : courseInfoList) {
+            //将当前选课人数与最大选课人数拼接在一起
+            Integer currentNumber = this.appointmentDAO.getBookNumber(courseInfo.getId()).getCount();
+            String numberInfo = currentNumber.toString() + "/" + courseInfo.getMaxNumber();
+            courseInfo.setCurrentNumberInfo(numberInfo);
+        }
+        return JsonResp.success(courseInfoList);
     }
 }

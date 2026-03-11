@@ -70,4 +70,10 @@ public class CourseInfoController {
     public JsonResp getCourseGroup() {
         return this.courseInfoService.getTeacherCountWithSameCourse();
     }
+
+    //获取未预约的课程信息，学生专用
+    @GetMapping(path = "/Student-lessons/available")
+    public JsonResp getStudentLessonsAvailable(@RequestParam String studentId) {
+        return this.courseInfoService.getStudentLessonsAvailable(studentId);
+    }
 }

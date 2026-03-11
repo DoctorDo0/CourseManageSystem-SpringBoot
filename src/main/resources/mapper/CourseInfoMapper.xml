@@ -102,14 +102,13 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into cms_course_info (course_id, teacher_id, course_date, course_period, course_address)
-        values (#{courseId}, #{teacherId}, #{courseDate}, #{coursePeriod}, #{courseAddress})
+        insert into cms_course_info (course_id, teacher_id, course_date, course_period, max_number, course_address)
+        values (#{courseId}, #{teacherId}, #{courseDate}, #{coursePeriod}, #{maxNumber}, #{courseAddress})
     </insert>
 
     <update id="updateByPrimaryKey">
         update cms_course_info
-        set course_id      = #{courseId},
-            teacher_id     = #{teacherId},
+        set teacher_id     = #{teacherId},
             course_date    = #{courseDate},
             course_period  = #{coursePeriod},
             course_address = #{courseAddress}
@@ -158,5 +157,37 @@
         from cms_course_info as ci
                  left join cms_course c on ci.course_id = c.id
         group by c.id
+    </select>
+
+    <select id="getStudentLessonsAvailable" resultMap="CourseInfoDetailMapWithPrefix">
+        SELECT DISTINCT ci.id             as info_id,
+                        ci.course_id      as info_course_id,
+                        ci.teacher_id     as info_teacher_id,
+                        ci.course_date    as info_course_date,
+                        ci.course_period  as info_course_period,
+                        ci.course_address as info_course_address,
+                        ci.max_number     as info_max_number,
+
+                        c.id              as c_id,
+                        c.course_id       as c_course_id,
+                        c.course_name     as c_course_name,
+                        c.credits         as c_credits,
+                        c.description     as c_description,
+
+                        t.id              as t_id,
+                        t.teacher_id      as t_teacher_id,
+                        t.name            as t_name,
+                        t.gender          as t_gender
+        FROM cms_course_info ci
+                 INNER JOIN cms_course c ON ci.course_id = c.id
+                 LEFT JOIN cms_teacher t ON ci.teacher_id = t.id
+        WHERE NOT EXISTS (SELECT 1
+                          FROM cms_appiontment ap
+                          WHERE ap.course_info_id = ci.id
+                            AND ap.student_id = (SELECT id
+                                                 FROM cms_student
+                                                 WHERE student_id = #{studentId} -- 传入的是学号
+                          ))
+        ORDER BY ci.course_date, ci.course_period
     </select>
 </mapper>

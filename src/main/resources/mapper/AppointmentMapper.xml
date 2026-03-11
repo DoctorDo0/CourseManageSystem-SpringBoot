@@ -233,7 +233,8 @@
     <select id="getSameBook" resultType="int">
         select count(0)
         from cms_appiontment
-        where course_info_id = #{courseInfoId} and student_id = #{studentId}
+        where course_info_id = #{courseInfoId}
+          and student_id = #{studentId}
         limit 1
     </select>
 
@@ -243,5 +244,44 @@
                  left join cms_course_info ci on ap.course_info_id = ci.id
                  left join cms_course c on ci.course_id = c.id
         group by c.id
+    </select>
+
+    <select id="getStudentBookRecords" resultMap="AppointmentDetailMapWithPrefix">
+        select DISTINCT ap.id             as appointment_id,
+                        ap.student_id     as appointment_student_id,
+                        ap.course_info_id as appointment_course_info_id,
+                        ap.record         as appointment_record,
+                        ap.record_time    as appointment_record_time,
+                        ap.record_desc    as appointment_record_desc,
+                        ap.score          as appointment_score,
+                        ap.credit         as appointment_credit,
+
+                        ci.id             as info_id,
+                        ci.course_id      as info_course_id,
+                        ci.teacher_id     as info_teacher_id,
+                        ci.course_date    as info_course_date,
+                        ci.course_period  as info_course_period,
+                        ci.course_address as info_course_address,
+                        ci.max_number     as info_max_number,
+
+                        c.id              as info_c_id,
+                        c.course_id       as info_c_course_id,
+                        c.course_name     as info_c_course_name,
+                        c.credits         as info_c_credits,
+                        c.description     as info_c_description,
+
+                        t.id              as info_t_id,
+                        t.teacher_id      as info_t_teacher_id,
+                        t.name            as info_t_name,
+                        t.gender          as info_t_gender
+
+        from cms_appiontment ap
+                 left join cms_course_info ci on ap.course_info_id = ci.id
+                 left join cms_course c on ci.course_id = c.id
+                 left join cms_teacher t on ci.teacher_id = t.id
+        where ap.student_id = (SELECT id
+                               FROM cms_student
+                               WHERE student_id = #{studentId} -- 传入的是学号
+        )
     </select>
 </mapper>

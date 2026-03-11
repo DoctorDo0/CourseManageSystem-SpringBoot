@@ -1,0 +1,17 @@
+package org.example.demo05.entity;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
+// 后台登录信息，用于前端登录验证的容器
+@Getter
+@Setter
+public class StudentAccount {
+    @NotBlank(message = "用户名不可为空")
+    @Size(min = 4, max = 12, message = "用户名长度必须介于4~12位")
+    private String username;
+    @NotBlank(message = "密码不可为空")
+    private String password;
+}

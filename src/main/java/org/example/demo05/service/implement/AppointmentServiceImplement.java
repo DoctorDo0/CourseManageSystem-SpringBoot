@@ -4,8 +4,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.example.demo05.dao.AppointmentDAO;
+import org.example.demo05.dao.StudentDAO;
 import org.example.demo05.entity.*;
 import org.example.demo05.entity.appointmentDTO.BookNumber;
+import org.example.demo05.entity.appointmentDTO.StudentBook;
 import org.example.demo05.entity.generalVO.CourseGroupCount;
 import org.example.demo05.service.AppointmentService;
 import org.example.demo05.utils.AttendanceStatus;
@@ -25,6 +27,7 @@ public class AppointmentServiceImplement implements AppointmentService {
     StudentServiceImplement studentServiceImplement;
     CourseInfoServiceImplement courseInfoServiceImplement;
     CourseServiceImpl courseServiceImpl;
+    StudentDAO studentDAO;
 
     @Autowired
     public void setAppointmentDAO(AppointmentDAO appointmentDAO) {
@@ -44,6 +47,11 @@ public class AppointmentServiceImplement implements AppointmentService {
     @Autowired
     public void setCourseServiceImpl(CourseServiceImpl courseServiceImpl) {
         this.courseServiceImpl = courseServiceImpl;
+    }
+
+    @Autowired
+    public void setStudentDAO(StudentDAO studentDAO) {
+        this.studentDAO = studentDAO;
     }
 
     @Override
@@ -324,10 +332,45 @@ public class AppointmentServiceImplement implements AppointmentService {
         return currentNumber == maxNumber;
     }
 
-    // 未使用
+    // 前端显示最大人数用
     // 按照课程信息ID查询预约人数
     public JsonResp getBookNumber(Integer courseInfoId) {
         BookNumber bookNumber = appointmentDAO.getBookNumber(courseInfoId);
         return JsonResp.success(bookNumber.getCount());
+    }
+
+    //获取已经预约过的课程，学生专用
+    public JsonResp getStudentBookRecords(String studentId) {
+        List<Appointment> appointments = this.appointmentDAO.getStudentBookRecords(studentId);
+        for (Appointment a : appointments) {
+            //通过枚举，根据签到状态位，设置为对应的签到状态值
+            if (a.getRecord() != null) {
+                a.setRecordInfo(AttendanceStatus.getDescFromCode(a.getRecord()));
+            }
+            //将当前选课人数与最大选课人数拼接在一起
+            Integer currentNumber = this.appointmentDAO.getBookNumber(a.getCourseInfoId()).getCount();
+            String numberInfo = currentNumber.toString() + "/" + a.getCourseInfo().getMaxNumber();
+            a.getCourseInfo().setCurrentNumberInfo(numberInfo);
+        }
+        return JsonResp.success(appointments);
+    }
+
+    //学生预约课程
+    @Override
+    public JsonResp studentBook(StudentBook studentBook) {
+        System.out.println(studentBook);
+        Integer studentId = this.studentDAO.getIdByStudentId(studentBook.getStudentId());
+        Appointment appointment = new Appointment();
+        appointment.setStudentId(studentId);
+        appointment.setCourseInfoId(studentBook.getCourseInfoId());
+        return this.bookAppointment(appointment);
+    }
+
+    //学生取消预约课程
+    @Override
+    public JsonResp studentCancel(Integer appointmentId) {
+        Integer[] appointmentIds = new Integer[1];
+        appointmentIds[0] = appointmentId;
+        return this.cancelAppointment(appointmentIds);
     }
 }

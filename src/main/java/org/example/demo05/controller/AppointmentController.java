@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import org.example.demo05.entity.Appointment;
 import org.example.demo05.entity.appointmentDTO.Credit;
 import org.example.demo05.entity.appointmentDTO.RecordDesc;
+import org.example.demo05.entity.appointmentDTO.StudentBook;
 import org.example.demo05.service.AppointmentService;
 import org.example.demo05.utils.JsonResp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
+    //查
     @GetMapping
     public JsonResp getAppointments(int page, int limit, @RequestParam Map<String, String> params) {
         try {
@@ -32,6 +34,7 @@ public class AppointmentController {
         }
     }
 
+    //增
     @PostMapping
     public JsonResp addAppointment(@RequestBody Appointment appointment) {
         try {
@@ -41,6 +44,7 @@ public class AppointmentController {
         }
     }
 
+    //改
     @PutMapping
     public JsonResp updateAppointment(@RequestBody Appointment appointment) {
         try {
@@ -50,6 +54,7 @@ public class AppointmentController {
         }
     }
 
+    //删
     @DeleteMapping
     public JsonResp deleteAppointment(@RequestBody Integer[] ids) {
         try {
@@ -59,6 +64,7 @@ public class AppointmentController {
         }
     }
 
+    //预约
     @PostMapping(path = "/book")
     public JsonResp bookAppointment(@RequestBody Appointment appointment) {
         try {
@@ -68,7 +74,8 @@ public class AppointmentController {
         }
     }
 
-    @PutMapping(path = "/cancel")
+    //取消预约
+    @PostMapping(path = "/cancel")
     public JsonResp cancelAppointment(@RequestBody Integer[] ids) {
         if (ids != null && ids.length == 0) {
             return JsonResp.error(400, "id为空");
@@ -161,5 +168,24 @@ public class AppointmentController {
     @GetMapping(path = "/getCourseGroup")
     public JsonResp getCourseGroup() {
         return this.appointmentService.getStudentCountWithSameCourse();
+    }
+
+    //获取已经预约过的课程，学生专用
+    @GetMapping(path = "/Student/book-records")
+    public JsonResp getStudentBookRecords(@RequestParam String studentId) {
+        return this.appointmentService.getStudentBookRecords(studentId);
+    }
+
+    //预约课程操作，学生专用
+    @PostMapping(path = "/Student/book")
+    public JsonResp studentBook(@RequestBody StudentBook studentBook) {
+        System.out.println(studentBook);
+        return this.appointmentService.studentBook(studentBook);
+    }
+
+    //取消预约课程操作，学生专用
+    @PostMapping(path = "/Student/cancel")
+    public JsonResp studentCancel(@RequestBody Integer appointmentId) {
+        return this.appointmentService.studentCancel(appointmentId);
     }
 }

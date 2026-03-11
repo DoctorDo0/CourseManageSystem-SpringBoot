@@ -34,4 +34,6 @@ public interface AppointmentDAO {
     int getSameBook(Appointment appointment);
 
     List<CourseGroupCount> getStudentCountWithSameCourse();
+
+    List<Appointment> getStudentBookRecords(String studentId);
 }

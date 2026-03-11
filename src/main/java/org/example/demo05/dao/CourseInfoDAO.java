@@ -22,4 +22,6 @@ public interface CourseInfoDAO {
     List<CourseInfo> getMainInfo();
 
     List<CourseGroupCount> getTeacherCountWithSameCourse();
+
+    List<CourseInfo> getStudentLessonsAvailable(String studentId);
 }

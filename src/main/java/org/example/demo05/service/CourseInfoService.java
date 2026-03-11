@@ -19,5 +19,9 @@ public interface CourseInfoService {
     //主要信息，适配前端下拉列表(选择器)
     List<CourseInfo> getMainInfo();
 
+    //课程分组占比(教师数量)，适配前端EChart图表用
     JsonResp getTeacherCountWithSameCourse();
+
+    //获取未预约的课程信息，学生专用
+    JsonResp getStudentLessonsAvailable(String studentId);
 }

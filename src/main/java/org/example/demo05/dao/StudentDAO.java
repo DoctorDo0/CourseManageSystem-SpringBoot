@@ -28,4 +28,6 @@ public interface StudentDAO {
     List<Student> getMainInfo();
 
     int getStudentCount();
+
+    int getIdByStudentId(String studentId);
 }
